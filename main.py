@@ -54,6 +54,7 @@ while RUNNING:
     window.fill(COLOR)
     # Update our window
     p.update(g)
+    g.update()
     g.draw_ground()
     p.draw_player()
 
