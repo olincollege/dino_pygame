@@ -1,67 +1,62 @@
 # import pygame package
 import pygame
-import player
-import ground
 import time
+from player import Player
+from ground import Ground
+from cactus import Cactus
 
-# initializing imported module
 pygame.init()  # pylint: disable=no-member
 
-# displaying a window of height
-# 500 and width 400
 WIN_WIDTH = 791
 WIN_HEIGHT = 201
+CACTUS_IMG_PATH = "images/cactus-group.png"
 
 window = pygame.display.set_mode((WIN_WIDTH, WIN_HEIGHT))
+pygame.display.set_caption("Dino Game")
 
-# creating a bool value which checks
-# if game is running
+player = Player(window, WIN_WIDTH, WIN_HEIGHT)
+ground = Ground(WIN_WIDTH, WIN_HEIGHT, window, "images/ground.jpg")
+cacti = pygame.sprite.Group()
+
 RUNNING = True
+clock = pygame.time.Clock()
+spawn_cactus_event = pygame.USEREVENT + 1  # pylint: disable=no-member
+pygame.time.set_timer(spawn_cactus_event, 1500)
 
-# setting variable to storecolor
-COLOR = "white"
-P_COLOR = "red"
-G_COLOR = "green"
-GRAVITY = 0.1
-
-X_POSITION = 100
-Y_POSITION = 300
-HEIGHT = 10
-WIDTH = 10
-DINO_IMG_PATH = "images/dino-run-1.png"
-GROUND_IMG_PATH = "images/ground.jpg"
+speed = 6
+ACCELERATION = 0.001
+MAX_SPEED = 13
 
 
-p = player.Player(window, WIN_WIDTH, WIN_HEIGHT)
-g = ground.Ground(WIN_WIDTH, WIN_HEIGHT, window, GROUND_IMG_PATH)
-
-# keep game running till running is true
 while RUNNING:
-
-    # Check for event if user has pushed
-    # any event in queue
     for event in pygame.event.get():
-
-        # if event is of type quit then set
-        # running bool to false
         if event.type == pygame.QUIT:  # pylint: disable=no-member
             RUNNING = False
         if event.type == pygame.KEYDOWN:  # pylint: disable=no-member
             if event.key == pygame.K_SPACE:  # pylint: disable=no-member
-                p.jump(g)
+                player.jump(ground)
+        if event.type == spawn_cactus_event:
+            new_cactus = Cactus(window, CACTUS_IMG_PATH, WIN_WIDTH, WIN_HEIGHT)
+            cacti.add(new_cactus)
 
-    # set background color to our window
-    window.fill(COLOR)
-    # Update our window
-    p.update(g)
-    g.update()
-    g.draw_ground()
-    p.draw_player()
+    player.update(ground)
+    ground.update(speed)
+    cacti.update(speed)
+
+    collisions = pygame.sprite.spritecollide(player, cacti, False)
+    if collisions:
+        RUNNING = False
+
+    if speed < MAX_SPEED:
+        speed += ACCELERATION
+
+    window.fill((255, 255, 255))
+    ground.draw_ground()
+    player.draw_player(ground)
+    cacti.draw(window)
 
     pygame.display.flip()
-    time.sleep(1 / 60)
+    clock.tick(60)
 
 
 pygame.quit()  # pylint: disable=no-member
-# if color is red change it to green and
-# vice-versa
