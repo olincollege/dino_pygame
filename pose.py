@@ -5,19 +5,21 @@ Name: Kenneth
 Class: SoftDes SP24
 """
 
+# pylint: disable=no-name-in-module
+import time
+from time import time
+import cv2
+import numpy as np
 import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
-import cv2
-import time
-from matplotlib import pyplot as plt
 from mediapipe import solutions
-from mediapipe.framework.formats import landmark_pb2
-import numpy as np
-from time import time
+from mediapipe.framework.formats import (
+    landmark_pb2,
+)
 
 
-class PoseDetector:
+class PoseDetector:  # pylint: disable=no-member
     """
     This class uses google media pipe to detect key features on
 
@@ -70,7 +72,7 @@ class PoseDetector:
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
         self._detector.detect_async(mp_image, int(1000 * time()))
 
-    def _set_pose_landmarks_async(self, result, output_image, timestamp_ms):
+    def _set_pose_landmarks_async(self, result, _, __):
         """
         Async callback function to interact with results from detection
 
@@ -97,8 +99,7 @@ class PoseDetector:
         annotated_image = np.copy(self._image)
 
         # Loop through the detected poses to visualize.
-        for idx in range(len(self._pose_landmarks)):
-            pose_landmarks = self._pose_landmarks[idx]
+        for _, pose_landmarks in enumerate(self._pose_landmarks):
 
             # Draw the pose landmarks.
             pose_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
@@ -119,10 +120,10 @@ class PoseDetector:
         cv2.imshow("Annoted Image", annotated_image)
         if cv2.waitKey(1) == ord("q"):
             cv2.destroyAllWindows()
-            raise "User Exited"
+            raise TypeError
 
 
-class CameraController:
+class CameraController:  # pylint: disable=no-member
     """
     This class instantiates the openCV based contoller for the human dyno game
 
@@ -205,7 +206,7 @@ class CameraController:
                     return True
             return False
         except IndexError:
-            pass
+            return False
 
     def is_ducking(self):
         """
@@ -228,17 +229,17 @@ class CameraController:
                     return True
             return False
         except IndexError:
-            pass
+            return False
 
 
 if __name__ == "__main__":
     test = CameraController()
-    index = 0
+    COUNT = 0
     while True:
         test.detect()
         if test.is_jumping():
-            print(f"U JUMPED{index}")
-            index += 1
+            print(f"U JUMPED{COUNT}")
+            COUNT += 1
         if test.is_ducking():
-            print(f"U ducked{index}")
-            index += 1
+            print(f"U ducked{COUNT}")
+            COUNT += 1
