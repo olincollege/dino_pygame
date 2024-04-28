@@ -1,6 +1,5 @@
 # import pygame package
 import pygame
-import time
 from player import Player
 from ground import Ground
 from cactus import Cactus
@@ -23,7 +22,7 @@ clock = pygame.time.Clock()
 spawn_cactus_event = pygame.USEREVENT + 1  # pylint: disable=no-member
 pygame.time.set_timer(spawn_cactus_event, 1500)
 
-speed = 6
+SPEED = 6
 ACCELERATION = 0.001
 MAX_SPEED = 13
 
@@ -40,15 +39,18 @@ while RUNNING:
             cacti.add(new_cactus)
 
     player.update(ground)
-    ground.update(speed)
-    cacti.update(speed)
+    ground.update(SPEED)
+    cacti.update(SPEED)
 
-    collisions = pygame.sprite.spritecollide(player, cacti, False)
-    if collisions:
-        RUNNING = False
+    for cactus in cacti:
+        offset_x = cactus.rect.left - player.rect.left
+        offset_y = cactus.rect.top - player.rect.top
 
-    if speed < MAX_SPEED:
-        speed += ACCELERATION
+        if player.mask.overlap(cactus.mask, (offset_x, offset_y)):
+            RUNNING = False
+
+    if SPEED < MAX_SPEED:
+        SPEED += ACCELERATION
 
     window.fill((255, 255, 255))
     ground.draw_ground()

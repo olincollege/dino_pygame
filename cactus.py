@@ -5,7 +5,7 @@ import random
 class Cactus(pygame.sprite.Sprite):
     def __init__(self, surface, image_path, winwidth, winheight):
         super(Cactus, self).__init__()
-        self.image = pygame.image.load(image_path)
+        self.image = pygame.image.load(image_path).convert_alpha()
         self.rect = self.image.get_rect()
         self._surface = surface
         self.winwidth = winwidth
@@ -15,6 +15,7 @@ class Cactus(pygame.sprite.Sprite):
         self.rect.y = winheight - self.rect.height
 
         self.speed = 1
+        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, speed):
         self.rect.x -= speed
