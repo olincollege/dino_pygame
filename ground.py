@@ -1,9 +1,28 @@
+"""Module defining the Ground class.
+
+The Ground class represents the ground in the game. It handles the ground's
+movement behavior.
+
+Classes:
+    Ground: Represents the player character in the game.
+"""
+
 import pygame
 
 
-class Ground:
+class Ground(pygame.sprite.Sprite):
+    """A class representing the ground in the game."""
+
     def __init__(self, winwidth, winheight, surface, image_path):
-        pygame.sprite.Sprite.__init__(self)
+        """Initialize the Ground object.
+
+        Args:
+            winwidth (int): The width of the game window.
+            winheight (int): The height of the game window.
+            surface (pygame.Surface): The surface on which the ground will be drawn.
+            image_path (str): The file path to the image of the ground.
+        """
+        super().__init__()
         self.image = pygame.image.load(image_path)
         self.rect = self.image.get_rect()
         self.winwidth = winwidth
@@ -12,21 +31,28 @@ class Ground:
 
         self.rect.y = self.winheight - self.rect.height
 
-        self.x1 = 0
-        self.x2 = self.rect.width
+        self.x_1 = 0
+        self.x_2 = self.rect.width
 
     def update(self, speed):
-        self.x1 -= speed
-        self.x2 -= speed
+        """Update the position of the ground.
 
-        if self.x1 + self.rect.width < 0:
-            self.x1 = self.x2 + self.rect.width
-        if self.x2 + self.rect.width < 0:
-            self.x2 = self.x1 + self.rect.width
+        Args:
+            speed (int): The speed at which the ground moves horizontally.
+        """
+        self.x_1 -= speed
+        self.x_2 -= speed
+
+        if self.x_1 + self.rect.width < 0:
+            self.x_1 = self.x_2 + self.rect.width
+        if self.x_2 + self.rect.width < 0:
+            self.x_2 = self.x_1 + self.rect.width
 
     def draw_ground(self):
-        self._surface.blit(self.image, (self.x1, self.rect.y))
-        self._surface.blit(self.image, (self.x2, self.rect.y))
+        """Draw the ground on the surface."""
+        self._surface.blit(self.image, (self.x_1, self.rect.y))
+        self._surface.blit(self.image, (self.x_2, self.rect.y))
 
     def get_rect(self):
+        """Return the rectangular area occupied by the ground."""
         return pygame.Rect(0, self.rect.y, self.winwidth, 0.1 * self.winheight)

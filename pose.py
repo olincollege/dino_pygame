@@ -100,7 +100,6 @@ class PoseDetector:  # pylint: disable=no-member
 
         # Loop through the detected poses to visualize.
         for _, pose_landmarks in enumerate(self._pose_landmarks):
-
             # Draw the pose landmarks.
             pose_landmarks_proto = landmark_pb2.NormalizedLandmarkList()
             pose_landmarks_proto.landmark.extend(
