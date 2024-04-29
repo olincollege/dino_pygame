@@ -77,7 +77,8 @@ class PoseDetector:  # pylint: disable=no-member
         Async callback function to interact with results from detection
 
         Parameters:
-            result - PoseLandmarks object containing coordiantes to pose features
+            result - PoseLandmarks object containing coordiantes to pose
+            features
             output_image - the output image as a mediapipe image object
             timestamp_ms - timestamp of image
 
@@ -129,7 +130,8 @@ class CameraController:  # pylint: disable=no-member
     Attributes:
         self._detector - PoseDetector detector
         self._capture - opencv camera object
-        self._past_feet - (2, 450) numpy array of last 15 seconds of feet landmarks
+        self._past_feet - (2, 450) numpy array of last 15 seconds of feet
+        landmarks
         self._past_head - (450) numpy array of last 15 seconds of head landmarks
         self._pose_landmarks - array of pose landmarks for a given frame
     """
@@ -169,7 +171,9 @@ class CameraController:  # pylint: disable=no-member
                 or self._pose_landmarks[28].visibility < 0.4
             ):
                 raise IndexError
-            self._past_feet = np.roll(self._past_feet, -1)  # move "frame" forward
+            self._past_feet = np.roll(
+                self._past_feet, -1
+            )  # move "frame" forward
             self._past_feet[:, -1] = np.array(
                 [
                     self._pose_landmarks[27].y,
@@ -198,7 +202,8 @@ class CameraController:  # pylint: disable=no-member
                 self._pose_landmarks[27].visibility > 0.4
                 or self._pose_landmarks[28].visibility > 0.4
             ):
-                if (  # define threshold for jumping equal to 10 percent of image
+                if (
+                    # define threshold for jumping equal to 10 percent of image
                     self._pose_landmarks[27].y < feet_threshold - 0.1
                     and self._pose_landmarks[28].y < feet_threshold - 0.1
                 ):
