@@ -1,6 +1,6 @@
 """Module defining the Cactus class.
 
-The Cactus class represents the player character in the game. It handles the 
+The Cactus class represents the cactus obstacle in the game. It handles the
 cactus's movement behavior.
 
 Classes:
@@ -14,7 +14,7 @@ import pygame
 class Cactus(pygame.sprite.Sprite):
     """A class representing a cactus obstacle in the game."""
 
-    def __init__(self, surface, image_paths, winwidth, winheight):
+    def __init__(self, surface, winwidth, winheight):
         """Initialize the Cactus object.
 
         Args:
@@ -25,17 +25,29 @@ class Cactus(pygame.sprite.Sprite):
             winheight (int): The height of the game window.
         """
         super().__init__()
-        self.image = pygame.image.load(random.choice(image_paths)).convert_alpha()
-        self.rect = self.image.get_rect()
+        self.images = [
+            pygame.image.load("images/cactus-group.png").convert_alpha(),
+            pygame.image.load("images/cactus-1.png").convert_alpha(),
+            pygame.image.load("images/cactus-2.png").convert_alpha(),
+            pygame.image.load("images/cactus-3.png").convert_alpha(),
+            pygame.image.load("images/cactus-10.png").convert_alpha(),
+            pygame.image.load("images/cactus-11.png").convert_alpha(),
+            pygame.image.load("images/cactus-6.png").convert_alpha(),
+            pygame.image.load("images/cactus-7.png").convert_alpha(),
+            pygame.image.load("images/cactus-8.png").convert_alpha(),
+            pygame.image.load("images/cactus-9.png").convert_alpha(),
+        ]
+
         self._surface = surface
         self.winwidth = winwidth
         self.winheight = winheight
 
+        self.image_choice = random.choice(self.images)
+        self.mask = pygame.mask.from_surface(self.image_choice)
+        self.rect = self.image_choice.get_rect()
+
         self.rect.x = winwidth
         self.rect.y = winheight - self.rect.height
-
-        self.speed = 1
-        self.mask = pygame.mask.from_surface(self.image)
 
     def update(self, speed):
         """Update the position of the cactus.
@@ -50,4 +62,4 @@ class Cactus(pygame.sprite.Sprite):
 
     def draw(self):
         """Draw the cactus on the surface."""
-        self._surface.blit(self.image, self.rect)
+        self._surface.blit(self.image_choice, self.rect)

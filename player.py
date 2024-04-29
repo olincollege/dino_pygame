@@ -1,6 +1,6 @@
 """Module defining the Player class.
 
-The Player class represents the player character in the game. It handles the 
+The Player class represents the player character in the game. It handles the
 player's movement, animation, jumping, and ducking behavior.
 
 Classes:
@@ -11,14 +11,17 @@ import math
 import pygame
 
 
-class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attributes
+class Player(
+    pygame.sprite.Sprite
+):  # pylint: disable=too-many-instance-attributes
     """A class representing the player character in the game."""
 
     def __init__(self, surface, win_width, win_height) -> None:
         """Initialize the Player object.
 
         Args:
-            surface (pygame.Surface): The surface on which the player will be drawn.
+            surface (pygame.Surface): The surface on which the player will be
+            drawn.
             win_width (int): The width of the game window.
             win_height (int): The height of the game window.
         """
@@ -46,7 +49,8 @@ class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attribu
         """Draw the player on the surface.
 
         Args:
-            ground (Ground): The ground object used to determine the player's position.
+            ground (Ground): The ground object used to determine the player's
+            position.
         """
         if self._is_ducking:
             if self._animation_frame > len(self._ducking_images) - 0.2:
@@ -54,7 +58,8 @@ class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attribu
             else:
                 self._animation_frame += 0.2
             self._surface.blit(
-                self._ducking_images[math.floor(self._animation_frame)], self.rect
+                self._ducking_images[math.floor(self._animation_frame)],
+                self.rect,
             )
             self.mask = pygame.mask.from_surface(
                 self._ducking_images[math.floor(self._animation_frame)]
@@ -64,7 +69,10 @@ class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attribu
                 self._animation_frame = 0
             else:
                 self._animation_frame += 0.2
-            if self.rect.bottom < ground.get_rect().top + ground.get_rect().height / 2:
+            if (
+                self.rect.bottom
+                < ground.get_rect().top + ground.get_rect().height / 2
+            ):
                 self._surface.blit(self._image[0], self.rect)
                 self.mask = pygame.mask.from_surface(self._image[0])
             else:
@@ -79,10 +87,14 @@ class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attribu
         """Update the player's position and animation frame.
 
         Args:
-            ground (Ground): The ground object used to determine the player's position.
+            ground (Ground): The ground object used to determine the player's
+            position.
         """
         self.rect = self.rect.move(self._speed)
-        if self.rect.bottom > ground.get_rect().top + ground.get_rect().height / 2:
+        if (
+            self.rect.bottom
+            > ground.get_rect().top + ground.get_rect().height / 2
+        ):
             self._speed[1] -= self._speed[1]
         else:
             self._speed[1] += 0.5
@@ -98,7 +110,8 @@ class Player(pygame.sprite.Sprite):  # pylint: disable=too-many-instance-attribu
         """Make the player character jump.
 
         Args:
-            ground (Ground): The ground object used to determine if the player can jump.
+            ground (Ground): The ground object used to determine if the player
+            can jump.
         """
         if self.rect.bottom >= ground.get_rect().top:
             self._speed[1] -= 8

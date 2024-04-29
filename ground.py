@@ -19,7 +19,8 @@ class Ground(pygame.sprite.Sprite):
         Args:
             winwidth (int): The width of the game window.
             winheight (int): The height of the game window.
-            surface (pygame.Surface): The surface on which the ground will be drawn.
+            surface (pygame.Surface): The surface on which the ground will be
+            drawn.
             image_path (str): The file path to the image of the ground.
         """
         super().__init__()
