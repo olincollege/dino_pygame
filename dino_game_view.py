@@ -31,20 +31,17 @@ class DinoGameView:
         font = pygame.font.Font(self._FONT_PATH, 10)
         self._game.window.fill((255, 255, 255))
         self._game._ground.draw_ground()
-        line_one = (
-            "Welcome to the Chrome Dino Game… with a twist! To jump and duck,"
-        )
-        line_two = (
-            " you need to physically move. Stand ~10 feet away from your camera"
-        )
-        line_three = "with it positioned at a 90 degree angle with the table. "
-        line_four = (
-            "There will be a 10 sec calibration period"
-            "before obstacles start appearing."
-        )
-        line_five = "Space and down arrow can also be used."
-        line_six = "Press space to begin calibration."
-        text = [line_one, line_two, line_three, line_four, line_five, line_six]
+        text = [
+            "Welcome to the Chrome Dino Game… with a twist! To jump and duck,",
+            " you need to physically move. Stand ~10 feet away from your camera",
+            "with it positioned at a 90 degree angle with the table. ",
+            (
+                "There will be a 10 sec calibration period"
+                "before obstacles start appearing."
+            ),
+            "Space and down arrow can also be used.",
+            "Press space to begin calibration.",
+        ]
         spacing = 0.1
         for index, line in enumerate(text):
             word_surface = font.render(line, 0, (0, 0, 0))
