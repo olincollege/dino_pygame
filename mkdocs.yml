@@ -35,5 +35,5 @@ theme:
 
 
 nav:
-  - index.md
+  - home: index.md
   
