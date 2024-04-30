@@ -184,7 +184,7 @@ class CameraController:  # pylint: disable=no-member
             self._past_head[-1] = self._pose_landmarks[0].y
         except IndexError:
             pass
-        self._detector.draw_landmarks_on_image()  # debugging line
+        # self._detector.draw_landmarks_on_image()  # debugging line
 
     def is_jumping(self):
         """
@@ -204,8 +204,8 @@ class CameraController:  # pylint: disable=no-member
             ):
                 if (
                     # define threshold for jumping equal to 10 percent of image
-                    self._pose_landmarks[27].y < feet_threshold - 0.1
-                    and self._pose_landmarks[28].y < feet_threshold - 0.1
+                    self._pose_landmarks[27].y < feet_threshold - 0.07
+                    and self._pose_landmarks[28].y < feet_threshold - 0.07
                 ):
                     return True
             return False
@@ -229,7 +229,7 @@ class CameraController:  # pylint: disable=no-member
                 or self._pose_landmarks[28].visibility > 0.4
             ):
                 # define threshold for ducking equal to 5 percent of image
-                if self._pose_landmarks[0].y > head_threshold + 0.05:
+                if self._pose_landmarks[0].y > head_threshold + 0.07:
                     return True
             return False
         except IndexError:

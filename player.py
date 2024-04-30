@@ -114,7 +114,7 @@ class Player(
             can jump.
         """
         if self.rect.bottom >= ground.get_rect().top:
-            self._speed[1] -= 8
+            self._speed[1] -= 6
 
     def duck(self):
         """Make the player character duck."""
