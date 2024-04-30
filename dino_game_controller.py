@@ -67,12 +67,15 @@ class KeyboardDinoGameController(DinoGameController):
                 self._game.quit()
             elif event.type == pygame.KEYDOWN:  # pylint: disable=no-member
                 if event.key == pygame.K_SPACE:  # pylint: disable=no-member
+                    self._game.start_game()
                     self._game.player.jump(self._game.ground)
         keys = pygame.key.get_pressed()
-        # if keys[pygame.K_DOWN]:  # pylint: disable=no-member
-        #     self._game.player.duck()
-        # else:
-        #     self._game.player.unduck()
+        if keys[pygame.K_DOWN]:  # pylint: disable=no-member
+            self._game.player.duck()
+            duck_event = pygame.event.Event(pygame.USEREVENT + 3)
+            pygame.event.post(duck_event)
+        elif pygame.event.get(pygame.USEREVENT + 2) == []:
+            self._game.player.unduck()
 
 
 class CameraDinoGameController(DinoGameController):
@@ -92,6 +95,7 @@ class CameraDinoGameController(DinoGameController):
          Returns:
              None
         """
+        # print(pygame.event.get(pygame.USEREVENT + 3))
         self.detector.detect()
         if self.detector.is_jumping() == True and not self.jump_flag:
             self.jump_flag = True
@@ -100,5 +104,7 @@ class CameraDinoGameController(DinoGameController):
             self.jump_flag = False
         if self.detector.is_ducking() == True:
             self._game.player.duck()
-        else:
+            duck_event = pygame.event.Event(pygame.USEREVENT + 2)
+            pygame.event.post(duck_event)
+        elif pygame.event.get(pygame.USEREVENT + 3) == []:
             self._game.player.unduck()

@@ -23,10 +23,10 @@ class DinoGame:
     _WIN_HEIGHT = 201
     _MIN_SPAWN_INTERVAL = 600  # Minimum interval in milliseconds
     _MAX_SPAWN_INTERVAL = 1800  # Maximum interval in milliseconds
-    _SPEED = 6
+    _SPEED = 5.5
     _ACCELERATION = 0.001
     _MAX_SPEED = 13
-    _score = 0
+    _score = -60
     _restart_button = pygame.Rect(
         _WIN_WIDTH // 2 - 36, _WIN_HEIGHT // 2 - 32, 72, 64
     )
@@ -54,70 +54,80 @@ class DinoGame:
         pygame.time.set_timer(self._spawn_cactus_event, 1500)
         self._GAME_OVER = False
         self._running = True
+        self._is_intro = True
 
     def restart(self):
         """
         Restart the game.
         """
         self._GAME_OVER = False
-        self._score = 0
+        self._score = -30
         self._SPEED = 6
         self._pterodactyls.empty()
         self._cacti.empty()
         self.update()
 
     def quit(self):
-        "Get the _quit attribute"
+        """Quit out of the game"""
         self._running = False
+
+    def start_game(self):
+        """Exit the instructions stage"""
+        self._is_intro = False
+
+    @property
+    def is_intro(self):
+        """Get the _is_intro attribute"""
+        return self._is_intro
 
     @property
     def ground(self):
-        "Get the _ground attribute"
+        """Get the _ground attribute"""
         return self._ground
 
     @property
     def running(self):
-        "Get the _running attribute"
+        """Get the _running attribute"""
         return self._running
 
     @property
     def player(self):
-        "Get the _player attribute"
+        """Get the _player attribute"""
         return self._player
 
     @property
     def cacti(self):
-        "Get the _cactiattribute"
+        """Get the _cactiattribute"""
         return self._cacti
 
     @property
     def pterodactyls(self):
-        "Get the _pterodactyls attribute"
+        """Get the _pterodactyls attribute"""
         return self._pterodactyls
 
     @property
     def score(self):
-        "Get the _score attribute"
+        """Get the _score attribute"""
         return self._score
 
     @property
     def win_width(self):
-        "Get the _WIN_WIDTH attribute"
+        """Get the _WIN_WIDTH attribute"""
         return self._WIN_WIDTH
 
     @property
     def win_height(self):
-        "Get the _WIN_HEIGHT attribute"
+        """Get the _WIN_HEIGHT attribute"""
         return self._WIN_HEIGHT
 
     @property
     def game_over(self):
-        "Get the _GAME_OVER attribute"
+        """Get the _GAME_OVER attribute"""
         return self._GAME_OVER
 
     @property
     def restart_button(self):
-        "Get the _restart_button attribute"
+        """Get the _restart_button attribute"""
         return self._restart_button
 
     def duck(self):
@@ -152,7 +162,7 @@ class DinoGame:
             self._SPEED += self._ACCELERATION
         self._score += self._SPEED / 40
         for event in pygame.event.get(pygame.USEREVENT + 1):
-            if not self._score < 150:
+            if self._score >= 0:
                 if self._score < 500 or random.random() > 0.25:
                     new_cactus = Cactus(
                         self.window, self._WIN_WIDTH, self._WIN_HEIGHT

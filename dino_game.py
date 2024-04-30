@@ -18,6 +18,9 @@ def main():
     game_view = DinoGameView(game)
     camera_player = CameraDinoGameController(game)
     keyboard_player = KeyboardDinoGameController(game)
+    while game.running and game.is_intro:
+        keyboard_player.get_input()
+        game_view.draw_intro()
     while game.running:
         keyboard_player.get_input()
         camera_player.get_input()
