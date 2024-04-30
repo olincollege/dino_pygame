@@ -1,6 +1,6 @@
 site_name: Human Dino Game
 
- site_url: https://olincollege.github.io/dino_pygame/
+site_url: https://olincollege.github.io/dino_pygame/
 theme: 
   name: material
   features:    
