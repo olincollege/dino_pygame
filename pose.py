@@ -66,9 +66,12 @@ class PoseDetector:  # pylint: disable=no-member
          Returns:
              a list of pose landmarks
         """
-        self._image = image
-        mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
-        self._detector.detect_async(mp_image, int(1000 * time()))
+        try:
+            self._image = image
+            mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image)
+            self._detector.detect_async(mp_image, int(1000 * time()))
+        except TypeError:
+            print("Invalid value for image was inputed.")
 
     def _set_pose_landmarks_async(self, result, _, __):
         """
@@ -115,7 +118,10 @@ class PoseDetector:  # pylint: disable=no-member
                 solutions.pose.POSE_CONNECTIONS,
                 solutions.drawing_styles.get_default_pose_landmarks_style(),
             )
-        cv2.imshow("Annoted Image", annotated_image)
+        try:
+            cv2.imshow("Annoted Image", annotated_image)
+        except cv2.error:
+            print("Image was not present.")
         if cv2.waitKey(1) == ord("q"):
             cv2.destroyAllWindows()
             raise TypeError
@@ -160,9 +166,12 @@ class CameraController:  # pylint: disable=no-member
         Returns:
             None
         """
-        _, image = self._capture.read()
-        self._detector.detect_landmarks(image)
         try:
+            ret, image = self._capture.read()
+            if not ret:
+                print("Camera not loaded. Please use keyboard input")
+                raise IndexError
+            self._detector.detect_landmarks(image)
             self._pose_landmarks = self._detector.pose_landmarks[0]
             if (  # Make sure feet are visible
                 self._pose_landmarks[27].visibility < 0.4
