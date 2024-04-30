@@ -1,8 +1,6 @@
 """
 This defines the classes and subclasses needed to receive cameral input
 
-Name: Kenneth
-Class: SoftDes SP24
 """
 
 # pylint: disable=no-name-in-module
