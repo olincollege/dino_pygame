@@ -13,15 +13,15 @@ from cactus import Cactus
 def setup_cactus():
     """Setup fixture for creating a cactus instance."""
     pygame.init()  # pylint: disable=no-member
-    screen = pygame.display.set_mode((800, 600))
-    return Cactus(screen, 800, 600)
+    screen = pygame.display.set_mode((791, 201))
+    return Cactus(screen, 791, 201)
 
 
 def test_cactus_initialization(setup_cactus):
     """Test the initialization of the cactus."""
     cactus = setup_cactus
-    assert cactus.rect.x == 800
-    assert cactus.rect.y == 600 - cactus.rect.height
+    assert cactus.rect.x == 791
+    assert cactus.rect.y == 201 - cactus.rect.height
 
 
 def test_cactus_update(setup_cactus):

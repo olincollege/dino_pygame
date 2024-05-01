@@ -166,7 +166,7 @@ class DinoGame:
 
     def update(self):
         """
-        Updates the states of the game at every timestep
+        Updates the states of the game at every time step
         """
         self._player.update(self._ground)
         self._ground.update(self._speed)
@@ -189,7 +189,7 @@ class DinoGame:
         if self._speed < self._MAX_SPEED:
             self._speed += self._ACCELERATION
         self._score += self._speed / 5
-        # Generate cacti randomlly
+        # Generate cacti randomly
         for _ in pygame.event.get(pygame.USEREVENT + 1):
             if self._score >= 0:
                 if self._score < 500 or random.random() > 0.25:
