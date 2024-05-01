@@ -7,7 +7,8 @@ _**Authors: Toby Mallon, Kenneth Xiong, Rewa Purohit**_
 We set out to recreated the Chrome dino game on python. BUT! With one small addition. The dinosaur will be controlled not only with keyboard input, but also with computer vision input from the player. The player has to physically jump and crouch to control the dinosaur.
 
 Click for Video:
-[![Video of Game](./src/img.jpg)](https://drive.google.com/file/d/11c9TbGPQL_-kQhaxxr3gAKofMoe_5bBH/view?usp=sharing )
+[![Video of Game](./src/img.jpg)](https://youtu.be/5G3ZtvSOpj4 )
+Long Link: [https://youtu.be/5G3ZtvSOpj4](https://youtu.be/5G3ZtvSOpj4)
 
 
 
